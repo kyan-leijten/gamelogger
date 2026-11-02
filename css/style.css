@@ -1,0 +1,898 @@
+/* ============================================================
+   WAT DOET DIT BESTAND?
+   CSS bepaalt hoe de site eruitziet: kleuren, lettertypes en indeling.
+   Elk blok heeft een "selector" (bijv. .knop) en daarachter { de regels }.
+   Een naam met een punt ervoor (.knop) is een class uit de HTML (class="knop").
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   Kleuren en lettertypes op één plek.
+   --naam is een variabele: je zet hem hier één keer neer en gebruikt hem
+   overal met var(--naam). Verander je hier een kleur, dan verandert hij overal.
+   ------------------------------------------------------------ */
+:root {
+  --achtergrond: #0c0e14;
+  --oppervlak: #151822;
+  --oppervlak-licht: #1c202c;
+  --rand: rgba(255, 255, 255, 0.08);
+  --tekst: #edeef2;
+  --tekst-gedimd: #8d93a6;
+
+  --accent: #f2b84b;        /* goud: knoppen en het logo */
+  --accent-donker: #d99e2f;
+
+  --paars: #b18cff;         /* Want to Play */
+  --blauw: #5ea8ff;         /* Playing */
+  --groen: #4fd689;         /* Completed */
+
+  --lettertype-kop: "Sora", sans-serif;
+  --lettertype-tekst: "Manrope", sans-serif;
+}
+
+/* box-sizing: padding en rand tellen mee in de breedte van een blok (dat rekent makkelijker) */
+* {
+  box-sizing: border-box;
+}
+
+/* Het scrollen naar #uitleg gaat soepel in plaats van met een sprong */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--achtergrond);
+  color: var(--tekst);
+  font-family: var(--lettertype-tekst);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: var(--lettertype-kop);
+  line-height: 1.2;
+  margin: 0 0 0.5em;
+}
+
+p {
+  margin: 0 0 1em;
+  color: var(--tekst-gedimd);
+}
+
+a {
+  color: inherit;          /* een link krijgt gewoon de kleur van de tekst eromheen */
+  text-decoration: none;
+}
+
+
+/* ------------------------------------------------------------
+   Het menu bovenaan
+   ------------------------------------------------------------ */
+.navigatie {
+  position: sticky;        /* blijft bovenaan staan als je scrolt */
+  top: 0;
+  z-index: 10;             /* ligt boven de rest van de pagina */
+  display: flex;           /* flex zet dingen naast elkaar in een rij */
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 6%;
+  background: rgba(12, 14, 20, 0.85);
+  -webkit-backdrop-filter: blur(8px);  /* dezelfde regel, voor oudere Safari */
+  backdrop-filter: blur(8px);          /* maakt wat er achter het menu zit een beetje wazig */
+  border-bottom: 1px solid var(--rand);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--lettertype-kop);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* HET DRAAIENDE LOGO: een ringetje waarvan twee zijden goud zijn. */
+.logo-icoon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;      /* 50% maakt een blok rond */
+  border: 3px solid rgba(242, 184, 75, 0.2);
+  border-top-color: var(--accent);
+  border-right-color: var(--accent);
+  /* animation: gebruik de animatie "roteren", 3 seconden per rondje, gelijkmatig, eindeloos */
+  animation: roteren 3s linear infinite;
+}
+
+/* @keyframes beschrijft een animatie: van begin (from) naar eind (to) */
+@keyframes roteren {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+nav#hoofdMenu {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+nav#hoofdMenu a {
+  color: var(--tekst-gedimd);
+  font-size: 0.95rem;
+  transition: color 0.2s ease;   /* transition: de kleur verandert zacht in plaats van meteen */
+}
+
+nav#hoofdMenu a:hover {          /* :hover = als je met de muis op het onderdeel staat */
+  color: var(--tekst);
+}
+
+/* Het streepjes-knopje: op een computer verborgen, op een telefoon zichtbaar (zie onderaan) */
+.menu-knop {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.menu-knop span {
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--tekst);
+}
+
+
+/* ------------------------------------------------------------
+   Knoppen
+   ------------------------------------------------------------ */
+.knop {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #191308;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid var(--accent);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+/* Als je er met de muis op staat: iets donkerder en een stukje omhoog */
+.knop:hover {
+  background: var(--accent-donker);
+  transform: translateY(-2px);
+}
+
+/* .knop.tweede = een element met allebei de classes: de knop met alleen een rand */
+.knop.tweede {
+  background: transparent;
+  color: var(--tekst);
+  border-color: var(--rand);
+}
+
+.knop.tweede:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.knop.klein {
+  padding: 9px 18px;
+  font-size: 0.85rem;
+}
+
+
+/* ------------------------------------------------------------
+   Homepage: bovenste stuk
+   ------------------------------------------------------------ */
+.introductie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  padding: 90px 6% 70px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.introductie-tekst {
+  max-width: 520px;
+}
+
+.introductie h1 {
+  font-size: 2.6rem;
+}
+
+.introductie h1 span {
+  color: var(--accent);
+}
+
+/* ANIMATIE BIJ HET LADEN: de tekst begint onzichtbaar en iets lager,
+   en schuift dan omhoog terwijl hij zichtbaar wordt (zie @keyframes verschijnen).
+   animation-delay laat de drie onderdelen na elkaar beginnen. */
+.introductie h1,
+.introductie-tekst > p,
+.knoppen {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: verschijnen 0.6s ease forwards;  /* forwards = blijf staan zoals het eindigt */
+}
+
+.introductie-tekst > p { animation-delay: 0.15s; font-size: 1.05rem; }
+.knoppen { animation-delay: 0.3s; display: flex; gap: 14px; flex-wrap: wrap; }
+
+@keyframes verschijnen {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* De zes gekleurde blokjes. grid zet dingen in een rooster: hier 3 kolommen van 60px. */
+.introductie-icoon {
+  display: grid;
+  grid-template-columns: repeat(3, 60px);
+  grid-auto-rows: 60px;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+/* Elk blokje groeit uit klein naar groot. nth-child(2) = het tweede blokje, enzovoort. */
+.introductie-icoon span {
+  border-radius: 14px;
+  opacity: 0;
+  transform: scale(0.7);
+  animation: blokje-verschijnt 0.5s ease forwards;
+}
+
+.introductie-icoon span:nth-child(1) { background: var(--paars);  animation-delay: 0.35s; margin-top: 20px; }
+.introductie-icoon span:nth-child(2) { background: var(--blauw);  animation-delay: 0.45s; }
+.introductie-icoon span:nth-child(3) { background: var(--groen);  animation-delay: 0.55s; margin-top: 20px; }
+.introductie-icoon span:nth-child(4) { background: var(--groen);  animation-delay: 0.40s; }
+.introductie-icoon span:nth-child(5) { background: var(--accent); animation-delay: 0.50s; margin-top: 20px; }
+.introductie-icoon span:nth-child(6) { background: var(--paars);  animation-delay: 0.60s; }
+
+@keyframes blokje-verschijnt {
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+/* ------------------------------------------------------------
+   Homepage: uitleg, mogelijkheden en aanmelden
+   ------------------------------------------------------------ */
+.uitleg,
+.mogelijkheden {
+  padding: 70px 6%;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.ondertekst {
+  max-width: 480px;
+  margin: 0 auto 40px;
+}
+
+.statussen,
+.mogelijkheden-lijst {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);   /* 3 gelijke kolommen */
+  gap: 22px;
+  text-align: left;
+}
+
+.status {
+  background: var(--oppervlak);
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+  padding: 26px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+/* HOVER-EFFECT: het blok gaat iets omhoog en krijgt een gouden rand */
+.status:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+
+.status-icoon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+}
+
+.status-icoon.paars { background: rgba(177, 140, 255, 0.15); color: var(--paars); }
+.status-icoon.blauw { background: rgba(94, 168, 255, 0.15);  color: var(--blauw); }
+.status-icoon.groen { background: rgba(79, 214, 137, 0.15);  color: var(--groen); }
+
+.status h3 { margin-bottom: 6px; }
+.status p { margin: 0; font-size: 0.92rem; }
+
+.mogelijkheden h2 { margin-bottom: 40px; }
+.mogelijkheden-lijst { gap: 36px; }
+.mogelijkheden-lijst h3 { margin-bottom: 6px; font-size: 1.05rem; }
+.mogelijkheden-lijst p { margin: 0; font-size: 0.92rem; }
+
+.mogelijkheid-icoon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--rand);
+  color: var(--accent);
+  font-size: 1.05rem;
+  margin-bottom: 14px;
+}
+
+.aanmelden {
+  margin: 40px auto 90px;
+  padding: 60px 6%;
+  max-width: 1100px;
+  text-align: center;
+  /* linear-gradient = een kleurverloop, hier van boven (donker) naar beneden (iets lichter) */
+  background: linear-gradient(180deg, var(--oppervlak), var(--oppervlak-licht));
+  border: 1px solid var(--rand);
+  border-radius: 20px;
+}
+
+.aanmelden h2 { margin-bottom: 10px; }
+
+.aanmelden > p {
+  max-width: 420px;
+  margin: 0 auto 26px;
+}
+
+.inloggen-tekst {
+  margin-top: 18px;
+  font-size: 0.92rem;
+}
+
+.inloggen-tekst a {
+  color: var(--accent);
+}
+
+footer {
+  padding: 30px 6%;
+  text-align: center;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--rand);
+}
+
+footer p { margin: 0; }
+
+
+/* ------------------------------------------------------------
+   De meldingen (na een actie)
+   Ze schuiven in, blijven even staan en verdwijnen na 3 seconden vanzelf.
+   Een foutmelding blijft staan, zodat je hem rustig kunt lezen.
+   ------------------------------------------------------------ */
+.melding {
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  margin-bottom: 18px;
+}
+
+.melding.fout {
+  background: rgba(240, 90, 90, 0.12);
+  color: #f08a8a;
+  border: 1px solid rgba(240, 90, 90, 0.3);
+  animation: melding-inschuiven 0.35s ease;
+}
+
+.melding.succes {
+  background: rgba(79, 214, 137, 0.12);
+  color: var(--groen);
+  border: 1px solid rgba(79, 214, 137, 0.3);
+  animation: melding-tijdelijk 3s ease forwards;
+}
+
+/* "verwijderd" is rood, maar verdwijnt net als succes vanzelf weer */
+.melding.verwijderd {
+  background: rgba(240, 90, 90, 0.12);
+  color: #f08a8a;
+  border: 1px solid rgba(240, 90, 90, 0.3);
+  animation: melding-tijdelijk 3s ease forwards;
+}
+
+@keyframes melding-inschuiven {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Percentages = hoever de animatie is. 0% = begin, 100% = einde. */
+@keyframes melding-tijdelijk {
+  0%   { opacity: 0; transform: translateY(-6px); }  /* begint onzichtbaar */
+  10%  { opacity: 1; transform: translateY(0); }     /* schuift snel in */
+  85%  { opacity: 1; transform: translateY(0); }     /* blijft staan */
+  100% { opacity: 0; transform: translateY(-6px); }  /* verdwijnt weer */
+}
+
+
+/* ------------------------------------------------------------
+   Inloggen, registreren en contact (de formulieren)
+   ------------------------------------------------------------ */
+.auth-pagina {
+  display: flex;
+  justify-content: center;
+  padding: 80px 6%;
+}
+
+.auth-formulier-sectie {
+  width: 100%;
+  max-width: 400px;
+}
+
+.contact-sectie { max-width: 520px; }
+
+.auth-formulier-sectie h1,
+.auth-formulier-sectie > p {
+  text-align: center;
+}
+
+.auth-formulier {
+  display: flex;
+  flex-direction: column;   /* onder elkaar in plaats van naast elkaar */
+  gap: 6px;
+  background: var(--oppervlak);
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+  padding: 26px;
+}
+
+label {
+  font-size: 0.85rem;
+  color: var(--tekst-gedimd);
+}
+
+.auth-formulier label,
+.game-formulier label { margin-top: 10px; }
+
+/* Alle invulvelden zien er hetzelfde uit */
+.auth-formulier input,
+.auth-formulier textarea,
+.game-formulier input,
+.game-formulier select {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--rand);
+  background: var(--achtergrond);
+  color: var(--tekst);
+  font-family: var(--lettertype-tekst);
+  font-size: 0.95rem;
+}
+
+.auth-formulier textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* :focus = het veld waar je op dit moment in typt krijgt een gouden rand */
+.auth-formulier input:focus,
+.auth-formulier textarea:focus,
+.game-formulier input:focus,
+.game-formulier select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.auth-formulier button { margin-top: 18px; }
+
+/* De rode melding die JavaScript onder de wachtwoordvelden zet */
+.js-melding {
+  color: #f08a8a;
+  font-size: 0.85rem;
+  min-height: 1.2em;
+  margin: 4px 0 0;
+}
+
+
+/* ------------------------------------------------------------
+   De gamespagina
+   ------------------------------------------------------------ */
+.games-pagina,
+.account-pagina,
+.admin-pagina {
+  padding: 50px 6% 90px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.account-pagina { max-width: 900px; }
+
+.games-intro,
+.account-intro {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.game-toevoegen { margin-bottom: 50px; }
+
+.game-formulier {
+  display: flex;
+  flex-wrap: wrap;           /* past het niet naast elkaar, dan gaat het naar de volgende regel */
+  gap: 14px;
+  align-items: flex-end;
+  background: var(--oppervlak);
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.game-formulier > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-formulier input[type="text"] {
+  min-width: 240px;
+  flex: 1;
+}
+
+.verlanglijst-vinkje {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.verlanglijst-vinkje input { width: auto; }
+
+.games-overzicht {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.game-kolom h2 {
+  font-size: 1rem;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--rand);
+  margin-bottom: 16px;
+}
+
+.game-kolom h2.paars { color: var(--paars); border-color: var(--paars); }
+.game-kolom h2.blauw { color: var(--blauw); border-color: var(--blauw); }
+.game-kolom h2.groen { color: var(--groen); border-color: var(--groen); }
+
+.leeg-bericht {
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.game-kaart {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--oppervlak);
+  border: 1px solid var(--rand);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+
+.game-titel {
+  margin: 0;
+  color: var(--tekst);
+  font-size: 0.92rem;
+  flex: 1;
+}
+
+.verlanglijst-formulier,
+.status-formulier,
+.verwijder-formulier { margin: 0; }
+
+.status-formulier select {
+  width: auto;
+  margin: 0;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+}
+
+/* Het sterretje: grijs, of goud als de game op je verlanglijst staat */
+.ster-knop {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--tekst-gedimd);
+  padding: 4px 6px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.ster-knop:hover { transform: scale(1.15); }
+.ster-knop.actief { color: var(--accent); }
+
+.verwijder-knop {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--tekst-gedimd);
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.verwijder-knop:hover {
+  color: #f08a8a;
+  background: rgba(240, 90, 90, 0.12);
+}
+
+.verlanglijst-sectie { margin-bottom: 40px; }
+
+.verlanglijst-sectie h2 {
+  font-size: 1rem;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.verlanglijst-lijst {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.verlanglijst-lijst .game-kaart {
+  flex: 0 1 240px;
+  margin-bottom: 0;
+}
+
+
+/* ------------------------------------------------------------
+   De accountpagina
+   ------------------------------------------------------------ */
+.account-kaart {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  background: var(--oppervlak);
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.profielfoto-blok {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.profielfoto {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;        /* de foto wordt bijgesneden in plaats van uitgerekt */
+  border: 2px solid var(--rand);
+}
+
+/* Geen foto? Dan een rondje met de eerste letter van je naam */
+.profielfoto-leeg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--oppervlak-licht);
+  color: var(--accent);
+  font-family: var(--lettertype-kop);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.foto-formulier {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8rem;
+}
+
+.foto-formulier input[type="file"] {
+  max-width: 180px;
+  font-size: 0.78rem;
+  color: var(--tekst-gedimd);
+}
+
+.account-info h2 { margin-bottom: 4px; }
+.account-info p { margin: 0 0 4px; }
+
+.statistieken {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+.statistiek-kaart {
+  background: var(--oppervlak);
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+}
+
+.statistiek-getal {
+  display: block;
+  font-family: var(--lettertype-kop);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.statistiek-getal.paars  { color: var(--paars); }
+.statistiek-getal.blauw  { color: var(--blauw); }
+.statistiek-getal.groen  { color: var(--groen); }
+.statistiek-getal.accent { color: var(--accent); }
+
+
+/* ------------------------------------------------------------
+   De adminpagina
+   ------------------------------------------------------------ */
+.admin-pagina { max-width: 1000px; }
+
+.admin-cijfers {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.admin-cijfers .statistiek-kaart { flex: 1; }
+
+/* overflow-x: auto = past de tabel niet op een smal scherm, dan kun je opzij scrollen */
+.tabel-wrapper {
+  overflow-x: auto;
+  background: var(--oppervlak);
+  border: 1px solid var(--rand);
+  border-radius: 14px;
+}
+
+.admin-tabel {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.admin-tabel th,
+.admin-tabel td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--rand);
+  white-space: nowrap;
+}
+
+.admin-tabel th {
+  font-size: 0.78rem;
+  color: var(--tekst-gedimd);
+}
+
+.admin-tabel tbody tr:last-child td { border-bottom: none; }
+.admin-tabel td small { color: var(--tekst-gedimd); }
+
+/* Het kleine rondje met foto (of letter) voor de naam */
+.tabel-gebruiker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mini-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.mini-avatar.leeg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--oppervlak-licht);
+  color: var(--accent);
+  font-family: var(--lettertype-kop);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.rol-label {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.rol-label.admin    { background: rgba(242, 184, 75, 0.15); color: var(--accent); }
+.rol-label.gebruiker { background: rgba(255, 255, 255, 0.06); color: var(--tekst-gedimd); }
+
+.tabel-acties {
+  display: flex;
+  gap: 8px;
+}
+
+.tabel-acties form { margin: 0; }
+
+.tabel-knop {
+  background: none;
+  border: 1px solid var(--rand);
+  border-radius: 8px;
+  color: var(--tekst-gedimd);
+  font-family: var(--lettertype-tekst);
+  font-size: 0.78rem;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.tabel-knop:hover { color: var(--accent); border-color: var(--accent); }
+.tabel-knop.rood:hover { color: #f08a8a; border-color: rgba(240, 90, 90, 0.5); background: rgba(240, 90, 90, 0.12); }
+
+
+/* ------------------------------------------------------------
+   Kleinere schermen (tablet en telefoon)
+   @media zegt: gebruik deze regels alleen als het scherm niet breder is dan ...
+   ------------------------------------------------------------ */
+@media (max-width: 900px) {
+  .introductie {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 60px;
+  }
+
+  .knoppen { justify-content: center; }
+
+  /* Alles wat 3 kolommen had, krijgt nu 1 kolom (onder elkaar) */
+  .statussen,
+  .mogelijkheden-lijst,
+  .games-overzicht { grid-template-columns: 1fr; }
+
+  .statistieken { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 720px) {
+  .introductie h1 { font-size: 2.1rem; }
+
+  /* Op een telefoon: het streepjes-knopje is zichtbaar en het menu klapt open onder de balk */
+  .menu-knop { display: flex; }
+
+  nav#hoofdMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--oppervlak);
+    border-bottom: 1px solid var(--rand);
+    max-height: 0;            /* dicht: 0 hoog */
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+  }
+
+  /* Heeft het menu de class "open" (door JavaScript)? Dan wordt het zichtbaar. */
+  nav#hoofdMenu.open { max-height: 350px; }
+
+  nav#hoofdMenu a {
+    padding: 14px 6%;
+    border-top: 1px solid var(--rand);
+  }
+
+  .game-formulier {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-cijfers { flex-direction: column; }
+}

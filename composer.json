@@ -1,0 +1,12 @@
+{
+  "name": "kyan/gamelogger",
+  "description": "Game Log - schoolproject Web Development",
+  "type": "project",
+  "require": {
+    "php": ">=8.0",
+    "phpmailer/phpmailer": "^7.1",
+    "vlucas/phpdotenv": "^5.7",
+    "phpoffice/phpspreadsheet": "^5.10",
+    "dompdf/dompdf": "^3.1"
+  }
+}
