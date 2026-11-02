@@ -1,0 +1,8 @@
+# Composer-pakketten: worden aangemaakt met "composer install"
+vendor/
+
+# Geheime gegevens (mailinstellingen): nooit op GitHub zetten
+.env
+
+# Geuploade profielfoto's
+uploads/profielfotos/*
